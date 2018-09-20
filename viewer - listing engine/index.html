@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800,700|Merriweather:400,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="css/reset.css"> <!-- CSS reset -->
+	<link rel="stylesheet" href="css/style.css"> <!-- Resource style -->
+	<script src="js/modernizr.js"></script> <!-- Modernizr -->
+  	  <!-- stylesheets -->
+  <link rel="stylesheet" type="text/css" href="scss/bootstrap/bootstrap.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+	<title>Listing Engine | Obie</title>
+</head>
+
+<body class="listing-engine lg-screen">
+
+    <!-- Start Listing Engine Body-->
+
+	<main>
+	    <div class="listing-engine-body">
+
+            <!-- Top Nav -->
+            <div class="menu-wrapper viewer-topbar">
+                <div class="toggle-wrapper">
+                    <a href="#cd-nav" class="cd-nav-trigger">
+                        <span class="cd-nav-icon"></span>
+                        <svg x="0px" y="0px" width="54px" height="54px" viewBox="0 0 54 54">
+                            <circle fill="transparent" stroke="#ffffff" stroke-width="1" cx="27" cy="27" r="25" stroke-dasharray="157 157" stroke-dashoffset="157"></circle>
+                        </svg>
+                    </a>
+                </div>
+                <h5 class="nav-page-name ng-binding">Details</h5>
+                <div aria-hidden="false" class="asset-info-top" role="button" tabindex="0">
+                    <img src="/api/v1/property/media/item/?item=121"> <a><i class="fa fa-caret-down ng-scope"></i></a>
+                </div>
+            </div>
+
+
+            <!-- Sidebar listing-engine-main INJECT slider-active class below for deals and snapshot, and group-active for groups-->
+
+
+            <div class="listing-engine-main group-active">
+
+                <!-- Group Section-->
+                <div class="left-body-groups">
+                    <div class="group-nav" ng-show="groupsExpanded" aria-hidden="false" style="">
+                        <div class="group-container">
+                            <!-- ngRepeat: group in myGroups --><div class="group-detail ng-scope" ng-repeat="group in myGroups" ng-init="($first &amp;&amp; !currentGroupId) ? newGroupSelected(group.id_group) : ''">
+                                <div class="button-wrapper active" ng-class="{ 'active' : currentGroupId == group.id_group }">
+                                    <button ng-click="newGroupSelected(group.id_group);" class="ng-binding">B</button>
+                                </div>
+                                <p class="ng-binding">Bills Group, inc.</p>
+                            </div><!-- end ngRepeat: group in myGroups -->
+
+                            <div class="group-detail ng-scope" ng-repeat="group in myGroups" ng-init="($first &amp;&amp; !currentGroupId) ? newGroupSelected(group.id_group) : ''">
+                                        <div class="button-wrapper" ng-class="{ 'active' : currentGroupId == group.id_group }" style="">
+                                            <button ng-click="newGroupSelected(group.id_group);" class="ng-binding">G</button>
+                                        </div>
+                                        <p class="ng-binding">Only G's.</p>
+                                    </div>
+
+                            <div class="add-group-container">
+                                <button class="add-group" ng-click="addNewGroupPopupClicked();">+</button>
+                                <!-- ngIf: showNewGroupWindow -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar slider section -->
+                <div class="left-body-sliders">
+                    <div class="ps-container ps-theme-default panel-no-menu" id="viewer-deals-panel-left">
+                        <!--viewer-details-sticky-nav-->
+                        <div class="my-deals">
+                            <h3 class="leftbar-header">My Active Listings<a href="">&times;</a></h3><!-- ngRepeat: asset in nav.itemsDash | filter: {status : 'active'} && {approved: true} -->
+                            <div aria-hidden="false" class="asset-list ng-scope" role="button" style="" tabindex="0">
+                                <img>
+                                <div class="info-asset">
+                                    <div class="name ng-binding">
+                                        Galewood Crossings
+                                    </div>
+                                    <div class="address ng-binding">
+                                        Chicago, Illinois 60639
+                                    </div>
+                                    <div class="info ng-binding">
+                                        30,000 SF Class A Office
+                                    </div>
+                                </div>
+                                <div class="angle-right">
+                                    <a><i class="fa fa-angle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- Sidebar property info section -->
+                    <div class="property-info-snapshot" id="viewer-details-panel-left">
+                        <!--viewer-details-sticky-nav-->
+                            <h3 class="leftbar-header">Asset Snapshot<a href="">&times;</a></h3>
+                            <div id="viewer-details-nav-wrapper">
+                                <img class="full">
+                                <div class="details">
+                                    <h2>{{nav.item.name}}</h2>
+                                    <div class="details-address">
+                                        {{nav.item.address1}} {{nav.item.city}}, {{nav.item.state}}
+                                    </div>
+                                </div>
+                                <div class="details">
+                                    <h3>Type <span>{{nav.item.type}}</span></h3>
+                                </div>
+                                <div class="details">
+                                    <h3>Sub Type <span>{{nav.item.subType}}</span></h3>
+                                </div>
+                                <div class="details">
+                                    <h3>Available Spaces <span>{{nav.item.availableSpaces}}</span></h3>
+                                </div>
+                                <div class="details">
+                                    <h3>Price <span>${{ctrl.item.price | number:0}}</span></h3>
+                                </div>
+                                <div class="details">
+                                    <h3>Leaseable Area <span>{{nav.item.size ? nav.item.size : 0 | number:0}}</span></h3>
+                                </div>
+                                <div class="details">
+                                    <h3>Lease Type<span>{{nav.item.leaseType}}</span></h3>
+                                </div>
+                                <div class="details">
+                                    <h3>Floors <span>{{nav.item.floors}}</span></h3>
+                                </div>
+                                <div class="details">
+                                    <h3>Class <span>{{nav.item.class | uppercase}}-(Core)</span></h3>
+                                </div>
+                                <div class="details">
+                                    <h3>Parking <span>{{nav.item.parking ? nav.item.parking : 0}}</span></h3>
+                                </div>
+                                <div class="details">
+                                    <h3>Year Built <span>{{nav.item.year}}</span></h3>
+                                </div>
+                                <div class="details">
+                                    <h3>Parcel Size <span>{{nav.item.parcel_size ? nav.item.parcel_size : 0}} acres</span></h3>
+                                </div>
+                                <div class="details">
+                                    <h3>Parcel Number <span>{{nav.item.parcel_number}}</span></h3>
+                                </div>
+                                <h1 id="broker">Listing Brokerage</h1>
+                                <div class="listing-brokerage">
+                                    <div class="grid-block row">
+                                        <div class="medium-12">
+                                            <div class="listing-broker-container">
+                                                <img class="company img-brokers">
+                                                <div class="company">
+                                                    <a href="/organization/{{item.id}}">
+                                                    <h2>{{item.name}}</h2>
+                                                    <p>{{item.roll}}</p>
+                                                    <p>{{item.city}}, {{item.state}}</p></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h1>Listing Brokers</h1>
+                                <div class="listing-brokerage">
+                                    <div class="grid-block row">
+                                        <div class="brokers-snapshot">
+                                            <div class="medium-12">
+                                                <div class="listing-broker-container">
+                                                    <img class="img-brokers">
+                                                    <div>
+                                                        <a>
+                                                        <h2>{{item.first_name}} {{item.last_name}}</h2><span></span>
+                                                        <p><span>{{item.title}}</span></p>
+                                                        <p>{{item.city}}, {{item.state}}</p></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h1 id="media">Media ({{nav.photoGallery.length}})</h1>
+                                <div class="row">
+                                    <div id="group-preview-gallery">
+                                        <div class="preview-4 preview-on-gallery">
+                                            <a><img alt="" src="/api/v1/property/media/item/?item={{%20image.id%20}}&size=midsize"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+
+                <!-- Listing Body Section -->
+                <div class="property-info-main">
+
+                <!-- Property Details Section -->
+                    <div class="property-details-container">
+                     <div class="head">
+                        <div class="masthead" style="background-image: url(https://racps.com/wp-content/uploads/2016/04/rand_property2.jpg);">
+                            <div class="preview-image-gallery" data-pswp-uid="1">
+                                <button class="show-gallery-button ng-binding" name="button" type="button"> <span ><i class="far fa-image obie-flex-col-md-0 obie-flex-col-lg-0 obie-flex-col-xl-0"></i></span> <span> {{nav.photoGallery.length}} </span> <span class="obie-flex-col-xs-0 obie-flex-col-sm-0 display-md">&nbsp;Photos</span></button>
+                            </div>
+                            <div class="pic"><img class="profile-img" src="https://racps.com/wp-content/uploads/2016/04/rand_property2.jpg"></div>
+                        </div>
+                        <div class="info obie-flex-container">
+                            <div class="name">
+                                {{ctrl.item.name}}
+                            </div>
+                            <div class="address">
+                                {{ctrl.item.address1}} {{ctrl.item.city}}, {{ctrl.item.state}} {{ctrl.item.zipCode}}
+                            </div>
+
+                            <!---TODO This is Sale--->
+                            <!---
+                            <div class=" obie-flex-row no-margin">
+                                <div class="obie-flex-col-md-1 obie-flex-col-sm-0 obie-flex-col-xs-0"></div>
+                                <div class="property-details obie-flex-col-md-2 obie-flex-col-sm-12 ">
+                                    <div class="data">
+                                        ${{ctrl.item.price | number:0}}
+                                    </div><label>Price</label>
+                                </div>
+                                <div class="property-details obie-flex-col-md-2 obie-flex-col-sm-12 ">
+                                    <div class="data">
+                                        {{ctrl.item.type | capitalize}}
+                                    </div><label>Type</label>
+                                </div>
+                                <div class="property-details obie-flex-col-md-2 obie-flex-col-sm-12 ">
+                                    <div class="data">
+                                        {{ctrl.item.class | uppercase}}
+                                    </div><label>Class</label>
+                                </div>
+                                <div class="property-details obie-flex-col-md-2 obie-flex-col-sm-12 ">
+                                    <div class="data">
+                                        {{ctrl.item.size ? ctrl.item.size : 0 | number:0}}
+                                    </div><label>Total SF</label>
+                                </div>
+                                <div class="property-details obie-flex-col-md-2 obie-flex-col-sm-12 ">
+                                    <div class="data">
+                                        {{ctrl.item.year}}
+                                    </div><label>Year Built</label>
+                                </div>
+                                <div class="obie-flex-col-md-1 obie-flex-col-sm-0 obie-flex-col-xs-0"></div>
+                            </div>
+                           --->
+
+                            <!---This is Leasing--->
+                            <div class=" obie-flex-row no-margin">
+                                <div class="property-details obie-flex-col-md-3 obie-flex-col-sm-12 ">
+                                    <div class="data">
+                                        {{ctrl.item.type | capitalize}}
+                                    </div><label>Type</label>
+                                </div>
+                                <div class="property-details obie-flex-col-md-3 obie-flex-col-sm-12 ">
+                                    <div class="data">
+                                        ${{ctrl.item.price | number:0}}
+                                    </div><label>Price</label>
+                                </div>
+                                <div class="property-details obie-flex-col-md-3 obie-flex-col-sm-12 ">
+                                    <div class="data">
+                                        {{nav.item.size ? nav.item.size : 0 | number:0}}
+                                    </div><label>Leasable SF</label>
+                                </div>
+                                <div class="property-details obie-flex-col-md-3 obie-flex-col-sm-12 ">
+                                    <div class="data">
+                                        {{nav.item.leaseType}}
+                                    </div><label>Lease Type</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="property-info-detail">
+                        <!-- Property Snapshot Box -->
+                        <div class="row content-info-details" id="propertyinfo">
+                            <div class="col-sm-12 col-md-12">
+                                <!--Info-->
+                                <div class="white-box">
+                                    <h1>Property Snapshot</h1>
+                                    <hr>
+                                    <div id="property-snapshot">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12">
+                                                <div id="dashboard-title">
+                                                    <h2>{{ctrl.item.name}}</h2>
+                                                    <p class="emphasize">{{ctrl.item.address1}} {{ctrl.item.city}}, {{ctrl.item.state}} {{ctrl.item.zipCode}}</p>
+                                                </div>
+                                                <div class="obie-flex-container">
+                                                    <div class="obie-flex-row">
+                                                        <div class="obie-flex-col-sm-12 obie-flex-col-md-4 slider-block">
+                                                            <table>
+                                                                <tr>
+                                                                    <td class="strong">Price</td>
+                                                                    <td>${{ctrl.item.price | number:0}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="strong">Type</td>
+                                                                    <td>{{ctrl.item.type}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="strong">Sub Type</td>
+                                                                    <td>{{ctrl.item.subtype}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="strong">Class:</td>
+                                                                    <td>{{ctrl.item.class | uppercase}}-(Core)</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        <div class="obie-flex-col-sm-12 obie-flex-col-md-4 slider-block">
+                                                            <table>
+                                                                <tr>
+                                                                    <td class="strong">Available Spaces</td>
+                                                                    <td>{{nav.item.availableSpaces}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="strong">Lease Type</td>
+                                                                    <td>{{ctrl.item.leaseType}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="strong">Levels/Floors:</td>
+                                                                    <td>{{ctrl.item.levels ? ctrl.item.levels : 0}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="strong">Parcel Size:</td>
+                                                                    <td>{{ctrl.item.parcel_size ? ctrl.item.parcel_size : 0}} acres</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        <div class="obie-flex-col-sm-12 obie-flex-col-md-4 slider-block">
+                                                            <table>
+                                                                <tr>
+                                                                    <td class="strong">Rentable SF:</td>
+                                                                    <td>{{ctrl.item.size ? ctrl.item.size : 0 | number:0}} sqft</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="strong">Year Built:</td>
+                                                                    <td>{{ctrl.item.year}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="strong">Parking:</td><!--<td>{{ctrl.item.parking_traffic ? ctrl.item.parking_traffic : 0}}-->
+                                                                    <td>{{ctrl.item.parking ? ctrl.item.parking : 0}} :1000 SF</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--Primer bloque-->
+                        <br>
+
+                       <!-- Property Detail -->
+                        <div class="row content-info-details" id="details">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="white-box">
+                                    <h1>Property Detail</h1>
+                                    <hr>
+                                    <div class="text-area">
+                                        <p>{{ctrl.item.highlights}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br>
+
+                        <!-- Listing Highlights -->
+                        <div class="row content-info-details" id="highlights">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="white-box">
+                                    <h1>Listing Highlights</h1>
+                                    <hr>
+                                    <div class="text-area">
+                                        <p>{{ctrl.item.highlights}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br>
+
+                        <!--Available Spaces-->
+                          <div class="content-info-details" id="highlights">
+                            <div class="white-box">
+                                <h1>Available Spaces</h1><hr>
+                                   <div class="secondary-section spaces-section" id="spaces">
+                                    <div class="space-avail">
+                                        <div class="border-bottom obie-flex-container">
+                                            <div data-toggle="collapse" data-target="#collapseC" aria-expanded="false" aria-controls="collapseC" class="obie-flex-row">
+                                                <div class="listing-name obie-flex-col-sm-2 obie-flex-col-md-2 col-center" itemprop="name">
+                                                    <div class="ModelFloorplanItem-photo-experiment">
+                                                        <img class="FloorplanImage" src="https://photonet.hotpads.com/search/modelLayout/RentCafe/654960/2355492/440716468_squareThumb.jpg">
+                                                    </div>
+                                                </div>
+                                                <div class="listing-small-detail obie-flex-col-md-2 obie-flex-col-sm-3">
+                                                    <div class="listing-avail">
+                                                        <div class="text-subtle">Suite 202-b</div>
+                                                        <div class="listing-date">Floor 9</div>
+                                                    </div>
+                                                </div>
+                                                <div class="listing-small-detail obie-flex-col-md-3 obie-flex-col-sm-0">
+                                                    <div class="listing-avail">
+                                                        <div class="text-subtle">Term</div>
+                                                        <div class="listing-date"><span>48 Mo.</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="obie-flex-col-sm-6 obie-flex-col-md-4 obie-flex-col-sm-3 main-space-detail text-right">
+                                                    <div class="listing-main">
+                                                        <div class="listing-rate">
+                                                            $75.50<div class="text-subtle">/sf/yr</div>
+                                                        </div>
+                                                        <div class="listing-location">
+                                                            <div class="">22,000 SF - <span>NNN</span></div>
+                                                        </div>
+                                                        <div class="listing-avail">
+                                                            <div class="listing-date">Avaiable <span>Dec 25 2018</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="obie-flex-col-sm-1 obie-flex-col-md-1 listing-small-detail arrow">
+                                                    <div class="listing-arrow"><i class="fa fa-angle-down"></i></div>
+                                                </div>
+                                            </div>
+                                            <div class="collapse" id="collapseC">
+                                                <div class="lease-card">
+                                                    <div class="key-details row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 detail-row ng-scope" ng-if="ctrl.previewPropertyItem.type == 'retail'" style="">
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <h3>Lease Details</h3>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-5 col-lg-5 title-detail-property">Space Type </div>
+                                                                <div class="col-xs-7 col-lg-7 detail-property ng-binding">&nbsp;&nbsp;&nbsp;&nbsp;Retail</div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-5 col-sm-5 col-lg-5 title-detail-property">Lease Rate</div>
+                                                                <div class="col-xs-7 col-sm-7 col-lg-7 detail-property ng-binding">&nbsp;&nbsp;&nbsp;&nbsp;$75.00 sf/mo</div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-5 col-lg-5 title-detail-property">Space Available</div>
+                                                                <div class="col-xs-7 col-lg-7 detail-property ng-binding">&nbsp;&nbsp;&nbsp;&nbsp;22,000 sf</div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-5 col-lg-5 title-detail-property">Lease Term</div>
+                                                                <div class="col-xs-7 col-lg-7 detail-property ng-binding">&nbsp;&nbsp;&nbsp;&nbsp;48 Months</div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-5 col-lg-5 title-detail-property">Lease Type </div>
+                                                                <div class="col-xs-7 col-lg-7 detail-property ng-binding">&nbsp;&nbsp;&nbsp;&nbsp;NNN</div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-5 col-lg-5 title-detail-property">Date Available</div>
+                                                                <div class="col-xs-7 col-lg-7 detail-property ng-binding">&nbsp;&nbsp;&nbsp;&nbsp;December 25 2018</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 detail-row ng-scope" ng-if="ctrl.previewPropertyItem.type == 'retail'">
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <h3>Space Discription</h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br>
+
+                         <!--Brokers-->
+                        <div class="obie-flex-container content-info-details" id="brokers">
+                            <div class="obie-flex-row">
+                                <div class="obie-flex-col-md-12 obie-flex-col-lg-6 slider-block">
+                                    <div class="white-box broker-box">
+                                        <h1>Listing Brokers</h1>
+                                        <hr>
+                                        <div class="listing-brokerage listing-brokers">
+                                            <div class="row">
+                                                <div class="obie-tooltip photo">
+                                                    <a class="broker-avatar"><img class="company img-brokers"></a>
+                                                    <div class="broker-info">
+                                                        <a class="info-broker">
+                                                        <h2>{{item.first_name}} {{item.last_name}}</h2>
+                                                        <p>{{item.title}}</p><span></span>
+                                                        <p><span>{{item.city}}, {{item.state}}</span></p></a>
+                                                    </div>
+                                                    <div class="broker-message">
+                                                        <a class="button button-message">Message</a>
+                                                    </div>
+                                                    <div class="user-follow-tooltip"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="obie-flex-col-md-12 obie-flex-col-lg-6 slider-block">
+                                    <div class="white-box">
+                                        <h1>Listing Brokerage</h1>
+                                        <hr>
+                                        <div class="listing-brokerage">
+                                            <div class="row">
+                                                <div class=" photo">
+                                                    <img class="company img-brokers">
+                                                    <div class="company">
+                                                        <a href="/organization/{{item.id}}">
+                                                        <h2>{{item.name}}</h2>
+                                                        <p>{{item.city}}, {{item.state}}</p></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                        <br>
+                    </div>
+                    </div>
+
+                </div>
+
+            </div>
+	    </div>
+    </main>
+
+   <!-- Viewer left sidebar nav -->
+
+	<div id="cd-nav" class="cd-nav">
+		<div class="cd-navigation-wrapper">
+
+				<!-- Viewer sidebar -->
+            <aside class="sidebar sidebar-default open" id="sidebar" role="navigation">
+
+                <!-- Sidebar header -->
+                <div class="sidebar-header header-cover" style="background-image: url(https://racps.com/wp-content/uploads/2016/04/rand_property2.jpg);">
+                    <div class="img-overlay">
+
+                        <!-- Sidebar brboker image name city state-->
+                        <div class="sidebar-image">
+                            <img src="https://i1.wp.com/www.connectedremag.com/wp-content/uploads/2017/08/cbre.jpg?resize=275%2C183&ssl=1">
+                            <div class="img-logo-word broker-word">
+                                <div class="brokerage-name ng-binding">
+                                    Listing Broker
+                                </div>
+                                <div class="brokerage-address ng-binding">
+                                    City, State
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar Property name -->
+                        <div class="sidebar-name">
+                            <div class="property-word">
+                                <div class="property-name ng-binding">
+                                    Property Name
+                                </div>
+                                <div class="property-address ng-binding">
+                                    City, State
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Listing image narrow menu-->
+                <div class="narrow-listing-image">
+                    <div class="sidebar-image"><img src="https://racps.com/wp-content/uploads/2016/04/rand_property2.jpg"></div>
+                </div>
+
+                <!-- Group Dropdown-->
+                <div class="groups-dropdown">
+                    <div class="group-main-block">
+
+                        <!-- Current Active Group -->
+                        <div role="dropdown-block">
+                            <button class="main-group-dropdown">
+                            <div class="group-letter-block">
+                                <div class="button-label">
+                                    B
+                                </div>
+                            </div>
+                            <div class="group-detail-block">
+                                <div class="group-name">
+                                    {{groupName}}
+                                </div>
+                                <div class="group-title">
+                                    Listing Group
+                                </div>
+                            </div>
+                            <div class="notch">
+                                <span><i class="fa fa-angle-down"></i></span>
+                            </div></button>
+                        </div>
+
+                        <!-- Selectable Groups
+                        <div class="main-group-dropdown">
+
+                            <div class="main-group-dropdown-wrapper">
+                                <div class="">
+                                    Groups
+                                </div>
+                                <div>
+                                    <a class="css-1cmm6kl" href="/browse/OB" id="react-select-4-option-0-0" role="option" tabindex="-1">
+                                    <div class="css-18dk92u">
+                                        <div style="display: inline-block; position: relative; outline: 0px; width: 44px; height: 44px;">
+                                            <span class="sc-jTdKgc jQaWjt"><span role="img" style="background-image: url(&quot;https://obiecre.atlassian.net/secure/projectavatar?avatarId=10324&amp;size=xxlarge&quot;); background-position: center center; background-repeat: no-repeat; background-size: cover; border-radius: 3px; display: flex; flex: 1 1 100%; height: 100%; width: 100%; background-color: transparent;"></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="css-oeeumh">
+                                        <div class="css-e1qto2">
+                                            ObieWeb
+                                        </div>
+                                        <div class="css-1jy9zpz">
+                                            Software project
+                                        </div>
+                                    </div></a>
+                                </div>
+                            </div>
+
+                            <!== TODO Main Tabs --><!-- T
+                            <div role="presentation">
+                                <button class="css-1ydfy3">
+                                <div class="add-group">
+                                    <span class="sc-dxgOiQ kHDppR"><svg height="24" role="presentation" viewbox="0 0 24 24" width="24">
+                                    <path d="M13 11V3.993A.997.997 0 0 0 12 3c-.556 0-1 .445-1 .993V11H3.993A.997.997 0 0 0 3 12c0 .557.445 1 .993 1H11v7.007c0 .548.448.993 1 .993.556 0 1-.445 1-.993V13h7.007A.997.997 0 0 0 21 12c0-.556-.445-1-.993-1H13z" fill="currentColor" fill-rule="evenodd"></path></svg></span>
+                                </div>
+                                <div class="css-oeeumh">
+                                    <div class="css-1nh7qlk">
+                                        Add Group
+                                    </div>
+                                </div></button>
+                            </div>
+                        </div>  -->
+                    </div>
+                </div>
+
+                <!-- Sidebar navigation tabs-->
+                <div class="listing-engine-tabs">
+                    <ul class="nav sidebar-nav">
+
+                        <!-- Main Tabs Leasing-->
+                        <li>
+                            <a href="#" tabindex="-1"><i class="sidebar-icon md-inbox"></i><span>Property Detail</span></a>
+                        </li>
+                        <li>
+                            <a href="#" tabindex="-2"><i class="sidebar-icon md-inbox"></i><span>Flyer</span></a>
+                        </li>
+                        <li>
+                            <a href="#" tabindex="-3"><i class="sidebar-icon md-inbox"></i><span>Task Management</span></a>
+                        </li>
+                        <li>
+                            <a href="#" tabindex="-4"><i class="sidebar-icon md-inbox"></i><span>Users</span></a>
+                        </li>
+                        <li class="divider"></li>
+
+                        <!-- Controller Tabs -->
+                        <li>
+                            <a href="#" tabindex="-5"><i class="sidebar-icon md-inbox"></i><span>Listing Snapshot</span></a>
+                        </li>
+                        <li>
+                            <a href="#" tabindex="-6"><i class="sidebar-icon md-inbox"></i><span>My Active Listings</span></a>
+                        </li>
+                        <li>
+                            <a href="#" tabindex="-7"><i class="sidebar-icon md-inbox"></i><span>Back to Dashboard</span></a>
+                        </li>
+                        <li>
+                            <a href="#cd-nav" tabindex="-8"><i class="sidebar-icon md-inbox"></i><span>Hide Side Navigation</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+		</div>
+	</div>
+
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/main.js"></script> <!-- Resource jQuery -->
+
+</body>
+</html>
